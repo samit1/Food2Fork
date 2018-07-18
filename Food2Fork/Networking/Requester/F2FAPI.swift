@@ -30,6 +30,7 @@ struct F2FAPI {
     private static func buildAPIURL(endPoint: F2FEndPoints,
                             parameters: [String:String]) -> URL? {
         var components = URLComponents(string: baseURL)
+        components?.path = endPoint.rawValue
         var queryItems = [URLQueryItem]()
         let requiredParams = [
             "key" : apiKey
@@ -55,7 +56,7 @@ struct F2FAPI {
     /// - parameter endPoint: The end point which the request is being made to
     /// - parameter parameters: Additional parameters that can be added to a URL
     /// - parameter onCompletion: Completion handler to call when the API request has completed or failed. 
-    static func makeAPIRequest(to endPoint: F2FEndPoints,
+    private static func makeAPIRequest(to endPoint: F2FEndPoints,
                                with parameters: [String:String],
                                onCompletion: @escaping (Results) -> ()) {
         
@@ -113,5 +114,23 @@ struct F2FAPI {
         }
     }
     
+    
+    /// Perform a search to the Food2Fork API
+    /// - parameter query: The string to search for
+    /// - parameter onCompletion: Completion handler to call when the API request has completed or failed. 
+    static func performSearch(for query: String, onCompletion: @escaping (Results) -> ()) {
+        let params  = [
+            "q" : query
+        ]
+        makeAPIRequest(to: .search, with: params) { (results) in
+            DispatchQueue.main.async {
+                onCompletion(results)
+            }
+            
+        }
+    }
+    
+    /// All methods and variables are static, this should not ever be initialized.
+    private init() {}
 }
 
