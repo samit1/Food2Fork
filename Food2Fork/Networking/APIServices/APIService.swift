@@ -16,9 +16,12 @@ enum Results  {
 
 /// API Service loosly based off: https://medium.com/flawless-app-stories/writing-network-layer-in-swift-protocol-oriented-approach-4fa40ef1f908
 
+/// QUESTION: Is it common to make my APIService struct completely static?
 struct APIService {
     // MARK: Public methods
     
+    
+    /// QUESTION: I end up with some layered completion handlers, the performSearch takes a completion handler and then the makeAPI request also takes a completion handler. Is this a correct implementation? 
     /// Perform a search to the Food2Fork API
     /// - parameter query: The string to search for
     /// - parameter onCompletion: Completion handler to call when the API request has completed or failed.

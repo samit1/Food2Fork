@@ -69,6 +69,7 @@ struct PhotoStore {
     /// Image cache
     private static var cache = NSCache<NSString, UIImage>()
     
+    /// QUESTION: I end up using the image URL as the key for my cache, is that a bad practice?
     /// Add to cache
     private static func addToCache(key: String, img: UIImage) {
         cache.setObject(img, forKey: key as NSString)

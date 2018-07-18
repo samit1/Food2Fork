@@ -102,8 +102,6 @@
 			children = (
 				0FBC2A4820FFC499003F04F6 /* API Data Model */,
 				0FCEF10520FF8E4700908C37 /* Photo Store */,
-				0F12BD6B20FF81F500DEE097 /* F2FAPIPayload.swift */,
-				0F12BD6D20FF823E00DEE097 /* Recipe.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -152,8 +150,8 @@
 		0FBC2A4820FFC499003F04F6 /* API Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				0FCEF10620FF8E5C00908C37 /* PhotoStore.swift */,
-				0FCEF10820FF8F0300908C37 /* PhotoStoreErrors.swift */,
+				0F12BD6B20FF81F500DEE097 /* F2FAPIPayload.swift */,
+				0F12BD6D20FF823E00DEE097 /* Recipe.swift */,
 			);
 			path = "API Data Model";
 			sourceTree = "<group>";
@@ -170,6 +168,8 @@
 		0FCEF10520FF8E4700908C37 /* Photo Store */ = {
 			isa = PBXGroup;
 			children = (
+				0FCEF10820FF8F0300908C37 /* PhotoStoreErrors.swift */,
+				0FCEF10620FF8E5C00908C37 /* PhotoStore.swift */,
 			);
 			path = "Photo Store";
 			sourceTree = "<group>";
