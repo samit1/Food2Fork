@@ -31,22 +31,7 @@ class F2FViewController: UIViewController {
         recipeCollectionView.delegate = self
         recipeCollectionView.dataSource = self
         recipeCollectionView.register(FoodCollectionViewCell.self, forCellWithReuseIdentifier: "foodCollectionCell")
-        
-        APIService.performSearch(for: "cheese") {[weak self] (results) in
-            guard let sSelf = self else {
-                return
-            }
-            switch results {
-            case .success(let recipeResponse):
-                let recipes = recipeResponse.recipes
-                print(recipes)
-                sSelf.recipes = recipes
-                sSelf.viewState = recipes.count > 0 ? .populated : .empty
-                sSelf.recipeCollectionView.reloadData()
-            case .failure(_):
-                sSelf.viewState = .error
-            }
-        }
+        searchForCheese()
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -139,6 +124,29 @@ class F2FViewController: UIViewController {
     }
     
     // MARK: Private
+    
+    private func searchForCheese() {
+        APIService.performSearch(for: "cheese") {[weak self] (results) in
+            guard let sSelf = self else {
+                return
+            }
+            switch results {
+            case .success(let recipeResponse):
+                let recipes = recipeResponse.recipes
+                self?.addToDataSource(recipes)
+                
+            case .failure(_):
+                sSelf.viewState = .error
+            }
+        }
+    }
+    
+    private func addToDataSource(_ recipes: [Recipe]) {
+        self.recipes = recipes
+        viewState = recipes.count > 0 ? .populated : .empty
+        recipeCollectionView.reloadData()
+    }
+    
     private func setBackgroundColor(_ color: UIColor) {
         view.backgroundColor = color
     }
@@ -187,7 +195,6 @@ extension F2FViewController : UICollectionViewDelegate, UICollectionViewDataSour
                 print(error)
             }
         }
-        
     }
 }
 
