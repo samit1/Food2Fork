@@ -18,6 +18,9 @@
 		0F12BD6E20FF823E00DEE097 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F12BD6D20FF823E00DEE097 /* Recipe.swift */; };
 		0F12BD7120FF82C200DEE097 /* NetworkingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F12BD7020FF82C200DEE097 /* NetworkingErrors.swift */; };
 		0F12BD7320FF863F00DEE097 /* F2FViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F12BD7220FF863F00DEE097 /* F2FViewController.swift */; };
+		0F12BD7820FF8ACE00DEE097 /* FoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F12BD7720FF8ACE00DEE097 /* FoodCollectionViewCell.swift */; };
+		0FCEF10720FF8E5C00908C37 /* PhotoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FCEF10620FF8E5C00908C37 /* PhotoStore.swift */; };
+		0FCEF10920FF8F0300908C37 /* PhotoStoreErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FCEF10820FF8F0300908C37 /* PhotoStoreErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		0F12BD6D20FF823E00DEE097 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		0F12BD7020FF82C200DEE097 /* NetworkingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingErrors.swift; sourceTree = "<group>"; };
 		0F12BD7220FF863F00DEE097 /* F2FViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = F2FViewController.swift; sourceTree = "<group>"; };
+		0F12BD7720FF8ACE00DEE097 /* FoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCollectionViewCell.swift; sourceTree = "<group>"; };
+		0FCEF10620FF8E5C00908C37 /* PhotoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStore.swift; sourceTree = "<group>"; };
+		0FCEF10820FF8F0300908C37 /* PhotoStoreErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoStoreErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,8 @@
 		0F12BD5220FF7E6700DEE097 /* Food2Fork */ = {
 			isa = PBXGroup;
 			children = (
+				0FCEF10520FF8E4700908C37 /* Photo Store */,
+				0F12BD7620FF8AB300DEE097 /* Views */,
 				0F12BD7420FF865200DEE097 /* ViewController */,
 				0F12BD6720FF7E9600DEE097 /* Networking */,
 				0F12BD5320FF7E6700DEE097 /* AppDelegate.swift */,
@@ -81,7 +89,7 @@
 		0F12BD6720FF7E9600DEE097 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				0F12BD7520FF877300DEE097 /* Requester */,
+				0F12BD7520FF877300DEE097 /* APIEndPointFetch */,
 				0F12BD6A20FF81D500DEE097 /* API Data Models */,
 				0F12BD6820FF7EB500DEE097 /* F2FConstants.swift */,
 			);
@@ -114,12 +122,29 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		0F12BD7520FF877300DEE097 /* Requester */ = {
+		0F12BD7520FF877300DEE097 /* APIEndPointFetch */ = {
 			isa = PBXGroup;
 			children = (
 				0F12BD6520FF7E8C00DEE097 /* F2FAPI.swift */,
 			);
-			path = Requester;
+			path = APIEndPointFetch;
+			sourceTree = "<group>";
+		};
+		0F12BD7620FF8AB300DEE097 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0F12BD7720FF8ACE00DEE097 /* FoodCollectionViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0FCEF10520FF8E4700908C37 /* Photo Store */ = {
+			isa = PBXGroup;
+			children = (
+				0FCEF10620FF8E5C00908C37 /* PhotoStore.swift */,
+				0FCEF10820FF8F0300908C37 /* PhotoStoreErrors.swift */,
+			);
+			path = "Photo Store";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,13 +218,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FCEF10720FF8E5C00908C37 /* PhotoStore.swift in Sources */,
 				0F12BD6920FF7EB500DEE097 /* F2FConstants.swift in Sources */,
 				0F12BD5620FF7E6700DEE097 /* ViewController.swift in Sources */,
 				0F12BD6620FF7E8C00DEE097 /* F2FAPI.swift in Sources */,
 				0F12BD7120FF82C200DEE097 /* NetworkingErrors.swift in Sources */,
 				0F12BD6E20FF823E00DEE097 /* Recipe.swift in Sources */,
 				0F12BD5420FF7E6700DEE097 /* AppDelegate.swift in Sources */,
+				0FCEF10920FF8F0300908C37 /* PhotoStoreErrors.swift in Sources */,
 				0F12BD6C20FF81F500DEE097 /* F2FAPIPayload.swift in Sources */,
+				0F12BD7820FF8ACE00DEE097 /* FoodCollectionViewCell.swift in Sources */,
 				0F12BD7320FF863F00DEE097 /* F2FViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
