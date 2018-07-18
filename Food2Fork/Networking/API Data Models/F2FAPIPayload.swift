@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Used https://quicktype.io/ to generate model
+
 struct APIResponse: Codable {
     let count: Int
     let recipes: [Recipe]

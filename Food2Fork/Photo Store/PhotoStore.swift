@@ -17,9 +17,7 @@ enum PhotoResult {
 struct PhotoStore {
     
     private static var cache = NSCache<NSString, UIImage>()
-    
-    
-    
+
     static func searchForPhoto(url: String, onCompletion: @escaping (PhotoResult) -> ()) {
         
         let img = getObjectFromCache(for: url)
@@ -32,45 +30,45 @@ struct PhotoStore {
         }
         
         guard let toURL = URL(string: url) else {
-            DispatchQueue.main.async {
-                onCompletion(.failure(PhotoStoreErrors.invalidURLForPhoto))
-            }
-            
+            onCompletion(.failure(PhotoStoreErrors.invalidURLForPhoto))
             return
         }
         
-        guard let data  = try? Data(contentsOf: toURL) else {
-            DispatchQueue.main.async {
-                onCompletion(.failure(PhotoStoreErrors.nilImgReturned))
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            guard let data = try? Data(contentsOf: toURL) else {
+                DispatchQueue.main.async {
+                    onCompletion(.failure(PhotoStoreErrors.nilImgReturned))
+                }
+                return
             }
             
-            return
-        }
-        
-        guard let imgFetched = UIImage(data: data) else {
-            DispatchQueue.main.async {
-                onCompletion(.failure(PhotoStoreErrors.imgConversion))
+            guard let imageFetched = UIImage(data: data) else {
+                DispatchQueue.main.async {
+                    onCompletion(.failure(PhotoStoreErrors.imgConversion))
+                }
+                return
             }
             
-            return
-        }
-        
-        DispatchQueue.main.async {
-            addToCache(key: url, img: imgFetched)
-            onCompletion(.success(imgFetched))
-        }
-        
-        
+            DispatchQueue.main.async {
+                addToCache(key: url, img: imageFetched)
+                onCompletion(.success(imageFetched))
+            }
     }
     
-    private static func addToCache(key: String, img: UIImage) {
-        cache.setObject(img, forKey: key as NSString)
-    }
+
     
-    private static func getObjectFromCache(for key: String) -> UIImage? {
-        return cache.object(forKey: key as NSString)
-    }
     
-    private init() {} 
-    
+}
+
+private static func addToCache(key: String, img: UIImage) {
+    cache.setObject(img, forKey: key as NSString)
+}
+
+private static func getObjectFromCache(for key: String) -> UIImage? {
+    return cache.object(forKey: key as NSString)
+}
+
+private init() {}
+
 }

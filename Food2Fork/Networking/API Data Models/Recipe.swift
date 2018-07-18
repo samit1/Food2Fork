@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Used https://quicktype.io/ to generate model 
+
 struct Recipe: Codable {
     let publisher, f2FURL, title, sourceURL: String
     let recipeID, imageURL: String

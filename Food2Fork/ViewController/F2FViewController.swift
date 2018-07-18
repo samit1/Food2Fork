@@ -8,19 +8,37 @@
 
 import UIKit
 
+enum ViewState {
+    case loading
+    case populated
+    case error
+    case empty
+    case loadScreen
+}
+
 class F2FViewController: UIViewController {
 
+//    private var titleView : TitleView = {
+//        let titleView = TitleView()
+//        titleView.translatesAutoresizingMaskIntoConstraints = false
+//        return titleView
+//    }()
+    
     private var recipeCollectionView : UICollectionView = {
-        
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        let collectionFlow = UICollectionViewFlowLayout.init()
+        collectionFlow.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionFlow)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor.white
         return collectionView
     }()
     
     private var recipes = [Recipe]()
+//    private var viewState = ViewState.loadScreen {
+//        didSet {
+//            setViewForState()
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +46,7 @@ class F2FViewController: UIViewController {
         recipeCollectionView.delegate = self
         recipeCollectionView.dataSource = self
         recipeCollectionView.register(FoodCollectionViewCell.self, forCellWithReuseIdentifier: "foodCollectionCell")
+        
         F2FAPI.performSearch(for: "cheese") {[weak self] (results) in
             guard let sSelf = self else {
                 return
@@ -37,14 +56,40 @@ class F2FViewController: UIViewController {
                 let recipes = recipeResponse.recipes
                 print(recipes)
                 sSelf.recipes = recipes
+//                sSelf.viewState = recipes.count > 0 ? .populated : .empty
                 sSelf.recipeCollectionView.reloadData()
             // TODO: Create error view
             case .failure(let error):
+//                sSelf.viewState = .error
                 print(error)
             }
-            
         }
+//        setViewForState()
     }
+    
+//    private func setViewForState() {
+//        switch viewState {
+//        case .loadScreen:
+//            recipeCollectionView.isHidden = true
+//            titleView.isHidden = false
+//            titleView.configureLabel("Welcome")
+//        case .loading:
+//            recipeCollectionView.isHidden = true
+//            titleView.isHidden = false
+//            titleView.configureLabel("Loading...")
+//        case .error:
+//            recipeCollectionView.isHidden = true
+//            titleView.isHidden = false
+//            titleView.configureLabel("Oh know, it seems there was an error. Quit me and try again?")
+//        case .empty:
+//            recipeCollectionView.isHidden = true
+//            titleView.isHidden = false
+//            titleView.configureLabel("It sems no results were returned. ")
+//        case .populated:
+//            recipeCollectionView.isHidden = false
+//            titleView.isHidden = true
+//        }
+//    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -67,11 +112,22 @@ class F2FViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.addSubview(recipeCollectionView)
+//        view.addSubview(titleView)
+        
         let margins = view.safeAreaLayoutGuide
+        
+        /* Set recipeCollectionView constraints */
         recipeCollectionView.topAnchor.constraint(equalTo: margins.topAnchor, constant: LayoutConstaints.top).isActive = true
         recipeCollectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: LayoutConstaints.bottom).isActive = true
         recipeCollectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: LayoutConstaints.leading).isActive = true
         recipeCollectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: LayoutConstaints.trailing).isActive = true
+//        
+//        /* Set titleView constraints */
+//        titleView.topAnchor.constraint(equalTo: margins.topAnchor, constant: LayoutConstaints.top).isActive = true
+//        titleView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: LayoutConstaints.bottom).isActive = true
+//        titleView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: LayoutConstaints.leading).isActive = true
+//        titleView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: LayoutConstaints.trailing).isActive = true
+//        
     }
     
     struct LayoutConstaints {
