@@ -9,13 +9,13 @@
 import Foundation
 
 /// Used https://quicktype.io/ to generate model 
-
+/// QUESTION: What if I want to add functionality to a data model? Is that a bad practice? Any guidance?
 struct Recipe: Codable {
     let publisher, f2FURL, title, sourceURL: String
     let recipeID, imageURL: String
     let socialRank: Double
     let publisherURL: String
-    let uuid = NSUUID().uuidString
+    let uuid = NSUUID().uuidString //<--- added field
     
     enum CodingKeys: String, CodingKey {
         case publisher

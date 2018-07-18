@@ -8,23 +8,29 @@
 
 import Foundation
 
-enum Results {
-    case success(APIResponse)
+
+enum Results  {
+    case success(SearchAPIResponse)
     case failure(Error)
 }
 
+/// API Service loosly based off: https://medium.com/flawless-app-stories/writing-network-layer-in-swift-protocol-oriented-approach-4fa40ef1f908
 
-struct F2FAPI {
+struct APIService {
     // MARK: Public methods
     
     /// Perform a search to the Food2Fork API
     /// - parameter query: The string to search for
     /// - parameter onCompletion: Completion handler to call when the API request has completed or failed.
-    static func performSearch(for query: String, onCompletion: @escaping (Results) -> ()) {
-        let params  = [
-            "q" : query
+    static func performSearch(for query: String,
+                              onCompletion: @escaping (Results) -> ()) {
+        let params : [String : String]  = [
+            "q":query
         ]
-        makeAPIRequest(to: .search, with: params) { (results) in
+        
+        let endPoint = SearchEndPoint()
+        
+        makeAPIRequest(to: endPoint, with: params) { (results) in
             DispatchQueue.main.async {
                 onCompletion(results)
             }
@@ -37,21 +43,13 @@ struct F2FAPI {
     /// - parameter endPoint: The endpoint of the api
     /// - parameter parameters: Additional parameters that can be added to a URL
     /// - returns: a URL, if valid
-    private static func buildAPIURL(apiKey: String,
-                                    baseURL: String,
-                                    endPoint: F2FEndPoints,
-                            parameters: [String:String]) -> URL? {
-        var components = URLComponents(string: baseURL)
-        components?.path = endPoint.rawValue
+    private static func buildAPIURL(endpoint: EndPointType,
+                                    parameters: [String:String]) -> URL? {
+        var components = URLComponents(string: endpoint.baseURL)
+        components?.path = endpoint.endPoint
         var queryItems = [URLQueryItem]()
-        let requiredParams = [
-            "key" : apiKey
-        ]
-        
-        for param in requiredParams {
-            let queryItem = URLQueryItem(name: param.key, value: param.value)
-            queryItems.append(queryItem)
-        }
+        let apiQueryItem = URLQueryItem(name: endpoint.apiKey.queryParamName, value: endpoint.apiKey.apiKey)
+        queryItems.append(apiQueryItem)
         
         for param in parameters {
             let queryItem = URLQueryItem(name: param.key, value: param.value)
@@ -59,29 +57,28 @@ struct F2FAPI {
         }
         
         components?.queryItems = queryItems
-        
         return components?.url
     }
     
+    
+
     /// Makes an API request and calls back a completion handler with results from the request
     /// Completion handler is called back on the main thread
     /// - parameter endPoint: The end point which the request is being made to
     /// - parameter parameters: Additional parameters that can be added to a URL
     /// - parameter onCompletion: Completion handler to call when the API request has completed or failed. 
-    private static func makeAPIRequest(to endPoint: F2FEndPoints,
+    private static func makeAPIRequest(to endPoint: EndPointType,
                                with parameters: [String:String],
                                onCompletion: @escaping (Results) -> ()) {
         
         /// Build URL for request
-        guard let url = buildAPIURL(apiKey: Constants.apiKey, baseURL: Constants.baseURL, endPoint: endPoint, parameters: parameters) else {
+        guard let url = buildAPIURL(endpoint: endPoint, parameters: parameters ) else {
             onCompletion(.failure(NetworkingErrors.invalidURLGenerated))
             return
         }
         /// Create URL Session
         let session = URLSession(configuration: .default)
-        
-        // TODO: Error handle timeout
-        
+                
         /// Create Request
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 15.0)
         
@@ -119,7 +116,7 @@ struct F2FAPI {
     /// Process data to Results type
     private static func processData(_ data: Data) -> Results {
         do {
-            let results = try JSONDecoder().decode(APIResponse.self, from: data)
+            let results = try JSONDecoder().decode(SearchAPIResponse.self, from: data)
             return .success(results)
         } catch {
             return .failure(NetworkingErrors.jsonProcessError)

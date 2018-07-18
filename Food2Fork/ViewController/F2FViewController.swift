@@ -32,7 +32,7 @@ class F2FViewController: UIViewController {
         recipeCollectionView.dataSource = self
         recipeCollectionView.register(FoodCollectionViewCell.self, forCellWithReuseIdentifier: "foodCollectionCell")
         
-        F2FAPI.performSearch(for: "cheese") {[weak self] (results) in
+        APIService.performSearch(for: "cheese") {[weak self] (results) in
             guard let sSelf = self else {
                 return
             }

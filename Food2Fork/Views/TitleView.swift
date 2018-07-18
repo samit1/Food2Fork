@@ -36,7 +36,7 @@ class TitleView: UIView {
             
             let margins = safeAreaLayoutGuide
             
-            /* Set constraints */
+            /* Set title constraints */
             title.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: LayoutConstants.leading).isActive = true
             title.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: LayoutConstants.trailing).isActive = true
             title.topAnchor.constraint(equalTo: margins.topAnchor, constant: LayoutConstants.top).isActive = true
