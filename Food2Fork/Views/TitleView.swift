@@ -10,30 +10,19 @@ import UIKit
 
 class TitleView: UIView {
 
-    private let title : UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.font = UIFont.boldSystemFont(ofSize: 36)
-        label.textAlignment = .left
-        return label
-    }()
-    
-    private var viewsNeedConstraints = true
-    
-    func configureLabel(_ text: String) {
-        title.text = text
-    }
+    // MARK: Public methods
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(title)
-        
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: View lifecycle methods
     
     override func updateConstraints() {
         if viewsNeedConstraints {
@@ -52,12 +41,27 @@ class TitleView: UIView {
             title.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: LayoutConstants.trailing).isActive = true
             title.topAnchor.constraint(equalTo: margins.topAnchor, constant: LayoutConstants.top).isActive = true
             title.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: LayoutConstants.bottom).isActive = true
-            
-            
         }
         
         super.updateConstraints()
     }
+    
+    /// - parameter text: The text to display
+    func configureLabel(_ text: String) {
+        title.text = text
+    }
+    
+    // MARK: Private 
+    private let title : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 36)
+        label.textAlignment = .left
+        return label
+    }()
+    
+    private var viewsNeedConstraints = true
     
     private struct LayoutConstants {
         static let leading = CGFloat(8.0)

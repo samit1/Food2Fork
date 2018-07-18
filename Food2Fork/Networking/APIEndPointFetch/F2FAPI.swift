@@ -15,19 +15,31 @@ enum Results {
 
 
 struct F2FAPI {
-    /// Base URL
-    private static let baseURL = "http://food2fork.com"
+    // MARK: Public methods
     
-    /// API Key
-    private static let apiKey = "2f8b74c367e3e10e742d3cc142c34652"
-
+    /// Perform a search to the Food2Fork API
+    /// - parameter query: The string to search for
+    /// - parameter onCompletion: Completion handler to call when the API request has completed or failed.
+    static func performSearch(for query: String, onCompletion: @escaping (Results) -> ()) {
+        let params  = [
+            "q" : query
+        ]
+        makeAPIRequest(to: .search, with: params) { (results) in
+            DispatchQueue.main.async {
+                onCompletion(results)
+            }
+        }
+    }
+    // MARK: Private methods
     
     /// Builds a url that can be used to make web service calls
     /// - parameter baseURL: The base URL for the api
     /// - parameter endPoint: The endpoint of the api
     /// - parameter parameters: Additional parameters that can be added to a URL
     /// - returns: a URL, if valid
-    private static func buildAPIURL(endPoint: F2FEndPoints,
+    private static func buildAPIURL(apiKey: String,
+                                    baseURL: String,
+                                    endPoint: F2FEndPoints,
                             parameters: [String:String]) -> URL? {
         var components = URLComponents(string: baseURL)
         components?.path = endPoint.rawValue
@@ -61,7 +73,7 @@ struct F2FAPI {
                                onCompletion: @escaping (Results) -> ()) {
         
         /// Build URL for request
-        guard let url = buildAPIURL(endPoint: endPoint, parameters: parameters) else {
+        guard let url = buildAPIURL(apiKey: Constants.apiKey, baseURL: Constants.baseURL, endPoint: endPoint, parameters: parameters) else {
             onCompletion(.failure(NetworkingErrors.invalidURLGenerated))
             return
         }
@@ -111,22 +123,6 @@ struct F2FAPI {
             return .success(results)
         } catch {
             return .failure(NetworkingErrors.jsonProcessError)
-        }
-    }
-    
-    
-    /// Perform a search to the Food2Fork API
-    /// - parameter query: The string to search for
-    /// - parameter onCompletion: Completion handler to call when the API request has completed or failed. 
-    static func performSearch(for query: String, onCompletion: @escaping (Results) -> ()) {
-        let params  = [
-            "q" : query
-        ]
-        makeAPIRequest(to: .search, with: params) { (results) in
-            DispatchQueue.main.async {
-                onCompletion(results)
-            }
-            
         }
     }
     

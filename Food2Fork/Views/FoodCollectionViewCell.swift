@@ -8,36 +8,10 @@
 
 import UIKit
 
+/// QUESTION: I wanted to add an activity indicator but I have trouble understanding what the size of the UIImage should be. 
+
 class FoodCollectionViewCell: UICollectionViewCell {
-    
-    private var vStackView : UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        return stackView
-    }()
-    
-    private var title : UILabel = {
-        let title = UILabel()
-        title.translatesAutoresizingMaskIntoConstraints = false
-        title.numberOfLines = 0
-        title.textAlignment = .left
-        title.font = UIFont.boldSystemFont(ofSize: 18)
-        title.textColor = UIColor.orange
-        return title
-    }()
-    
-    private var imgView : UIImageView = {
-        let imgView = UIImageView()
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        imgView.backgroundColor = UIColor.black
-        imgView.contentMode = .scaleAspectFit
-        return imgView
-    }()
-    
-    private var viewsNeedConstrains = true
-    
+    // MARK: Public methods
     override init(frame: CGRect) {
         super.init(frame: frame)
         vStackView.addArrangedSubview(title)
@@ -61,9 +35,10 @@ class FoodCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCellImg(img: UIImage) {
-        imgView.image = img 
+        imgView.image = img
     }
     
+    // MARK: View lifecycle
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -97,6 +72,38 @@ class FoodCollectionViewCell: UICollectionViewCell {
         }
         super.updateConstraints()
     }
+    
+    
+    // MARK: Views on screen
+    private var vStackView : UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        return stackView
+    }()
+    
+    private var title : UILabel = {
+        let title = UILabel()
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.numberOfLines = 0
+        title.textAlignment = .left
+        title.font = UIFont.boldSystemFont(ofSize: 18)
+        title.textColor = UIColor.orange
+        return title
+    }()
+    
+    private var imgView : UIImageView = {
+        let imgView = UIImageView()
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.backgroundColor = UIColor.black
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
+    
+    // MARK: Private
+    
+    private var viewsNeedConstrains = true
     
     private struct LayoutConstants {
         static let leading = CGFloat(8.0)
